@@ -25,7 +25,7 @@ const showTask = async (req, res) => {
       .sort(sort) //based on duedate,createAt
       .skip(skip)
       .limit(limit);
-    res.status(200).json({ success: true, tasks: tasks});
+    res.status(200).json({ success: true, tasks: tasks });
   } catch (error) {
     handleCatchBlock(res, error, "something wrong while fething task");
   }
