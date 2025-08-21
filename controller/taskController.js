@@ -68,27 +68,29 @@ const deleteTask = async (req, res) => {
 };
 const updateTask = async (req, res) => {
   const { id } = req.params;
-  const { newTitle, newDescription, newStatus, newPriority, newDueDate } =
-    req.body;
+  const { title, description, status, priority, dueDate } = req.body;
   try {
     const updateFields = {};
-    if (newTitle) updateFields.title = newTitle;
-    if (newDescription) updateFields.description = newDescription;
-    if (newStatus) updateFields.status = newStatus;
-    if (newPriority) updateFields.priority = newPriority;
-    if (newDueDate) updateFields.dueDate = newDueDate;
+    if (title) updateFields.title = title;
+    if (description) updateFields.description = description;
+    if (status) updateFields.status = status;
+    if (priority) updateFields.priority = priority;
+    if (dueDate) updateFields.dueDate = dueDate;
 
     const updatedTask = await taskModel.findByIdAndUpdate(id, updateFields, {
       new: true,
     });
 
-    console.log(updatedTask);
     if (!updatedTask) {
       return handleNotFound(res, "task not found");
     }
-    res.status(200).json({ success: true, task: updatedTask });
+    res.status(200).json({
+      success: true,
+      msg: "Task updated successfully!",
+      task: updatedTask,
+    });
   } catch (error) {
-    handleCatchBlock(res, error, "something wrong while editing task");
+    return handleCatchBlock(res, error, "something wrong while editing task");
   }
 };
 module.exports = { addTask, showTask, deleteTask, updateTask };
